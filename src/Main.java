@@ -13,5 +13,15 @@ public class  Main {
     }
     public void iniciarJuego() {
         System.out.println("Bienvenidos al juego.");
+        registrarJugadores();
+    }
+
+    public void registrarJugadores() {
+        System.out.println("Introduce el numero de tus jugadores: ");
+        int numeroJugadores=Integer.parseInt(scanner.nextLine());
+        for (int i = 1; i <= numeroJugadores;i++) {
+            System.out.println("Nombre del jugador" + i + ":");
+            String nombre = scanner.nextLine();
+        }
     }
 }
