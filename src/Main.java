@@ -24,4 +24,48 @@ public class  Main {
             String nombre = scanner.nextLine();
         }
     }
+    public void ejecutarFaseNocturna() {
+        System.out.println("Coomienza la fase nocturna. ");
+        List<Jugador>lobos =new ArrayList();
+        Iterator var2=jugadores.iterator();
+
+        Jugador jugador;
+        while(var2.hasNext()) {
+            jugador = (Jugador)var2.next();
+            if(jugador.rol.equals("Lobo") && jugador.vivo) {
+                lobos.add(jugador);
+            }
+        }
+        if (lobos.isEmpty()) {
+            System.out.println("No hay lobos vivos. ");
+        }else {
+            System.out.println("Lobos, elijan a quién quieren atacar: ");
+            var2 = jugadores.iterator();
+
+            while(var2.hasNext()) {
+                jugador = (Jugador)var2.next();
+                if (jugador.vivo && !jugador.rol.equals("Lobo")) {
+                    System.out.println(jugador.id+ ": "+ jugador.nombre);
+                }
+            }
+            int victimaId = scanner.nextInt();
+            boolean esAldeano = false;
+            Iterator var4 =jugadores.iterator();
+
+            while (var4.hasNext()) {
+                Jugador jugador = (Jugador)var4.next();
+                if (jugador.id == victimaId && !jugador.rol.equals("Lobo")) {
+                    jugador.vivo =false;
+                    esAldeano = true;
+                    System.out.println(jugador.nombre + "ha sido eliminada. Su rol era: " + jugador.rol);
+                    break;
+                }
+            }
+            if (!esAldeano) {
+                System.out.println("Los lobos deben elegir a un aldeano como víctima. Por favor, elijan nuevamente.");
+                this.ejecutarFaseNocturna();
+            }
+        }
+
+    }
 }
