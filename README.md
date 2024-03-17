@@ -51,3 +51,8 @@ La victoria se logra cuando uno de los grupos (aldeanos o lobos) cumple su objet
 - **Métodos**: Se implementaron métodos específicos para simular las habilidades y acciones de cada rol.
 
 ¡Que disfruten del juego! 🎉
+
+**Autores:**
+- Constanza Cerro Aragon
+- Satenik Avetisyan
+
