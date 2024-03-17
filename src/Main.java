@@ -85,15 +85,20 @@ public class Main {
 
 
     public static void jugar(ArrayList<String> nombres, ArrayList<String> roles, ArrayList<String> accionLobos, boolean pocionSalvacion, boolean pocionMatar) {
+        // Comprobamos si hay al menos un lobo vivo
+        if (roles.contains("Lobo")) {
+            System.out.println("\nEs de noche en la aldea, y se comienzan a despertar los personajes!!");
 
-        System.out.println("\nEs de noche en la aldea, y se comienzan a despertar los personajes!!");
+            lobo(nombres, accionLobos);
+            pocionSalvacion = bruja(nombres, pocionSalvacion, pocionMatar, accionLobos);
+            cupido(nombres, accionLobos);
+            vidente(nombres, roles);
 
-        lobo(nombres, accionLobos);
-        pocionSalvacion = bruja(nombres, pocionSalvacion, pocionMatar, accionLobos);
-        cupido(nombres, accionLobos);
-        vidente(nombres, roles);
-        // Votación
-        votacion(nombres, accionLobos, roles);
+            // recursiva para continuar jugand
+            jugar(nombres, roles, accionLobos, pocionSalvacion, pocionMatar);
+        } else {
+            System.out.println("Los lobos han sido eliminados. El juego ha terminado.");
+        }
     }
 
     public static void cupido(ArrayList<String> nombres, ArrayList<String> accionLobos) {
