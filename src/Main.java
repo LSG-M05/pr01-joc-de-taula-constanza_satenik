@@ -94,6 +94,21 @@ public class Main {
         vidente(nombres, roles);
         // Votación
         votacion(nombres, accionLobos, roles);
+      
+        // Comprobamos si hay al menos un lobo vivo
+        if (roles.contains("Lobo")) {
+            System.out.println("\nEs de noche en la aldea, y se comienzan a despertar los personajes!!");
+
+            lobo(nombres, accionLobos);
+            pocionSalvacion = bruja(nombres, pocionSalvacion, pocionMatar, accionLobos);
+            cupido(nombres, accionLobos);
+            vidente(nombres, roles);
+
+            // recursiva para continuar jugand
+            jugar(nombres, roles, accionLobos, pocionSalvacion, pocionMatar);
+        } else {
+            System.out.println("Los lobos han sido eliminados. El juego ha terminado.");
+        }
     }
 
     public static void cupido(ArrayList<String> nombres, ArrayList<String> accionLobos) {
@@ -141,6 +156,93 @@ public class Main {
             System.out.println("El nombre del jugador no existe en la partida");
         }
     }
+
+    public static void lobo(ArrayList<String> nombres, ArrayList<String> accionLobos) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Se despiertan los lobos y deciden a quien quieren matar esta noche");
+
+        System.out.println("Lista de Jugadores");
+        for (String nombre : nombres){
+            System.out.println(nombre);
+        }
+
+        System.out.println("Seleccione al jugador que desean matar");
+        String jugadorMatado = scanner.nextLine();
+
+        System.out.println("- - - - - - - - - - - - - - - -");
+
+        if (nombres.contains(jugadorMatado)) {
+            accionLobos.add("Atacaron a " + jugadorMatado);
+        }else {
+            System.out.println("Ingrese un nombre valido");
+        }
+    }
+
+    public static boolean bruja(ArrayList<String> nombres, boolean pocionSalvacion, boolean pocionMatar, ArrayList<String> accionesLobos) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Se despierta la bruja!! y decide si usar sus pocimas");
+
+        // Mostrar a la bruja a quién han matado los lobos
+        String jugadorAtacado = accionesLobos.get(accionesLobos.size() - 1).substring(10);
+        System.out.println("Los lobos han atacado a: " + jugadorAtacado);
+
+        if (!pocionSalvacion) {
+            System.out.println("La bruja puede usar la poción de salvación para salvar a " + jugadorAtacado + ".");
+            System.out.println("¿Quieres usar la poción de salvación? (s/n)");
+            String respuestaSalvacion = scanner.nextLine();
+
+            if (respuestaSalvacion.equalsIgnoreCase("s")) {
+                System.out.println("La bruja ha usado la poción de salvación para salvar a " + jugadorAtacado + ".");
+                pocionSalvacion = true;
+                // Eliminar la acción de lobos correspondiente
+                accionesLobos.remove(accionesLobos.size() - 1);
+            }
+    }
+
+
+    public static void vidente(ArrayList<String> nombres, ArrayList<String> roles) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("La vidente se despierta y elije el rol de que jugador quiere saber");
+
+        System.out.println("Lista de Jugadores");
+        for (String nombre : nombres){
+            System.out.println(nombre);
+        }
+
+
+        if (!pocionMatar) {
+            System.out.println("¿Quieres usar la poción de matar? (s/n)");
+            String respuestaMatar = scanner.nextLine();
+
+            if (respuestaMatar.equalsIgnoreCase("s")) {
+                System.out.println("¿A quién quieres matar?");
+
+                System.out.println("Lista de Jugadores");
+                for (String nombre : nombres){
+                    System.out.println(nombre);
+                }
+
+                System.out.println("Seleccione al jugador que desean matar");
+                String jugadorAMatar = scanner.nextLine();
+
+                // Lógica para matar al jugador
+                System.out.println("La bruja ha usado la poción de matar para eliminar a " + jugadorAMatar + ".");
+                accionesLobos.add("La bruja ha matado a " + jugadorAMatar); // guardo el nombre del jugador matado
+            }
+        System.out.println("Seleccione al jugadr que desea saber el rol");
+        String nombreJugador = scanner.nextLine();
+
+        int index = nombres.indexOf(nombreJugador);
+        if (index != -1) {
+            String rolJugador = roles.get(index);
+            System.out.println("El jugador" + nombreJugador + "tiene el rol: " + rolJugador);
+        }else{
+            System.out.println("El nombre del jugador no existe en la partida");
+        }
+        return pocionSalvacion;
+    }
+
 
     public static void lobo(ArrayList<String> nombres, ArrayList<String> accionLobos) {
         Scanner scanner = new Scanner(System.in);
